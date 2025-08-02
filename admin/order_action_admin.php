@@ -10,6 +10,7 @@ if ($action == 'update_status' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $order_id = $_GET['id'];
     $order_status = $_POST['status'];
     $payment_status = $_POST['payment_status'];
+    $rejection_reason = ($order_status == 'rejected' && isset($_POST['rejection_reason'])) ? $_POST['rejection_reason'] : NULL;
 
     // Get current order status to check if stock needs to be restored
     $stmt = $pdo->prepare("SELECT status FROM orders WHERE id = ?");
@@ -19,8 +20,8 @@ if ($action == 'update_status' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdo->beginTransaction();
 
     try {
-        $stmt = $pdo->prepare("UPDATE orders SET status = ?, payment_status = ? WHERE id = ?");
-        $stmt->execute([$order_status, $payment_status, $order_id]);
+        $stmt = $pdo->prepare("UPDATE orders SET status = ?, payment_status = ?, rejection_reason = ? WHERE id = ?");
+        $stmt->execute([$order_status, $payment_status, $rejection_reason, $order_id]);
 
         // If order is cancelled, restore stock and log it
         if ($order_status == 'cancelled' && $current_order['status'] != 'cancelled') {

@@ -123,6 +123,12 @@ require_once __DIR__ . '/../templates/header_admin.php';
                                     Ditolak</option>
                             </select>
                         </div>
+                        <div class="mb-3" id="rejectionReasonField"
+                            style="display: <?php echo $order['status'] == 'rejected' ? 'block' : 'none'; ?>;">
+                            <label for="rejection_reason" class="form-label">Alasan Penolakan</label>
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control"
+                                rows="3"><?php echo htmlspecialchars($order['rejection_reason'] ?? ''); ?></textarea>
+                        </div>
                         <div class="mb-3">
                             <label for="payment_status" class="form-label">Status Pembayaran</label>
                             <select name="payment_status" id="payment_status" class="form-select">
@@ -163,3 +169,18 @@ require_once __DIR__ . '/../templates/header_admin.php';
 <?php
 require_once __DIR__ . '/../templates/footer_admin.php';
 ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusSelect = document.getElementById('status');
+        const rejectionReasonField = document.getElementById('rejectionReasonField');
+
+        statusSelect.addEventListener('change', function () {
+            if (this.value === 'rejected') {
+                rejectionReasonField.style.display = 'block';
+            } else {
+                rejectionReasonField.style.display = 'none';
+            }
+        });
+    });
+</script>
