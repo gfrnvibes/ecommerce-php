@@ -6,10 +6,11 @@ Proyek ini adalah aplikasi web e-commerce sederhana yang dibangun menggunakan PH
 
 ### Halaman Admin
 
-- Manajemen Kasir (POS)
+- Manajemen Kasir (POS) dengan fitur pembayaran dan kembalian
 - Manajemen Pesanan Online
 - Manajemen Produk (CRUD)
 - Laporan Penjualan (POS & Online)
+- Tampilan Transaksi Terbaru di Dashboard
 
 ### Halaman User
 
