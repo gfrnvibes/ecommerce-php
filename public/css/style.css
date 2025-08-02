@@ -1,4 +1,8 @@
 
+* 
+{
+  font-family: "Inter", sans-serif;
+}
 
 .min-h-screen {
   min-height: 75vh; /* Set minimum height to full viewport height */
