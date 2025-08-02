@@ -14,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 
 // Ambil item dari keranjang
 $stmt = $pdo->prepare("
-    SELECT p.id, p.name, p.price, p.image_url, c.quantity
+    SELECT p.id, p.name, p.price, p.image_url, p.stock, c.quantity
     FROM carts c
     JOIN products p ON c.product_id = p.id
     WHERE c.user_id = ?
@@ -58,7 +58,7 @@ $total_price = 0;
                             </td>
                             <td>Rp <?php echo number_format($item['price'], 2, ',', '.'); ?></td>
                             <td>
-                                <input type="number" name="quantities[<?php echo $item['id']; ?>]" class="form-control" value="<?php echo $item['quantity']; ?>" min="1">
+                                <input type="number" name="quantities[<?php echo $item['id']; ?>]" class="form-control" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>">
                             </td>
                             <td>Rp <?php echo number_format($subtotal, 2, ',', '.'); ?></td>
                             <td>
@@ -68,15 +68,15 @@ $total_price = 0;
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <div class="text-danger mb-3">Klik "Perbarui Keranjang" jika ada perubahan Jumlah.</div>
-            <div class="row">
+            <div class="row justify-content-between align-items-center mt-4">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-info">Perbarui Keranjang</button>
+                    <div class="text-danger mb-3">Klik "Perbarui Keranjang" jika ada perubahan Jumlah.</div>
                     <a href="products.php" class="btn btn-secondary">Lanjut Belanja</a>
+                    <button type="submit" class="btn btn-primary">Perbarui Keranjang</button>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-6 text-end">
                     <h4>Total: Rp <?php echo number_format($total_price, 2, ',', '.'); ?></h4>
-                    <a href="checkout.php" class="btn btn-success btn-lg">Lanjut ke Checkout</a>
+                    <a href="checkout.php" class="btn btn-primary btn-lg">Lanjut ke Checkout</a>
                 </div>
             </div>
         </form>

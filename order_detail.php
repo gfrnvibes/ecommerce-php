@@ -37,6 +37,21 @@ $items_stmt = $pdo->prepare("
 $items_stmt->execute([$order_id]);
 $order_items = $items_stmt->fetchAll();
 
+$statusMap = [
+    'awaiting_payment' => ['label' => 'Menunggu Pembayaran', 'badge' => 'bg-warning'],
+    'processing' => ['label' => 'Sedang Diproses', 'badge' => 'bg-primary'],
+    'shipped' => ['label' => 'Dikirim', 'badge' => 'bg-info'],
+    'completed' => ['label' => 'Selesai', 'badge' => 'bg-success'],
+    'cancelled' => ['label' => 'Dibatalkan', 'badge' => 'bg-secondary'],
+    'rejected' => ['label' => 'Ditolak', 'badge' => 'bg-danger'],
+];
+
+$paymentStatusMap = [
+    'unpaid' => ['label' => 'Belum Dibayar', 'badge' => 'bg-danger'],
+    'pending_verification' => ['label' => 'Menunggu Verifikasi', 'badge' => 'bg-warning'],
+    'paid' => ['label' => 'Sudah Dibayar', 'badge' => 'bg-success'],
+];
+
 require_once 'templates/header.php';
 ?>
 
@@ -64,6 +79,15 @@ require_once 'templates/header.php';
                 </thead>
                 <tbody>
                     <?php foreach ($order_items as $item): ?>
+                                                    <?php
+                                                        $status = $order['status'];
+                                                        $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
+                                                        $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
+
+                                                        $payment = $order['payment_status'];
+                                                        $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
+                                                        $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
+                                                        ?>
                         <tr>
                             <td><?php echo htmlspecialchars($item['name']); ?></td>
                             <td><?php echo $item['quantity']; ?></td>
@@ -79,10 +103,10 @@ require_once 'templates/header.php';
             <p><strong>Total Pesanan:</strong> <span class="float-right">Rp
                     <?php echo number_format($order['total_amount'], 2, ',', '.'); ?></span></p>
             <p><strong>Status Pesanan:</strong> <span
-                    class="float-right badge bg-info"><?php echo ucfirst(str_replace('_', ' ', $order['status'])); ?></span>
+                    class="float-right badge <?php echo $badgeClass; ?>"><?php echo $label; ?></span>
             </p>
             <p><strong>Status Pembayaran:</strong> <span
-                    class="float-right badge bg-warning"><?php echo ucfirst(str_replace('_', ' ', $order['payment_status'])); ?></span>
+                    class="float-right badge <?= $paymentBadge ?>"><?= $paymentLabel ?></span>
             </p>
 
             <?php if ($order['status'] == 'awaiting_payment' && !empty($order['payment_due'])): ?>

@@ -87,7 +87,17 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
                             <td><?php echo htmlspecialchars($order['id']); ?></td>
                             <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>
                             <td><?php echo htmlspecialchars($order['order_type']); ?></td>
-                            <td><?php echo htmlspecialchars($order['status']); ?></td>
+                            <td><?php
+                            $status_map = [
+                                'awaiting_payment' => 'Menunggu Pembayaran',
+                                'processing' => 'Diproses',
+                                'shipped' => 'Dikirim',
+                                'completed' => 'Selesai',
+                                'cancelled' => 'Dibatalkan',
+                                'rejected' => 'Ditolak'
+                            ];
+                            echo htmlspecialchars($status_map[$order['status']] ?? ucwords(str_replace('_', ' ', $order['status'])));
+                            ?></td>
                             <td><?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($order['created_at']))); ?></td>
                         </tr>
                     <?php endforeach; ?>

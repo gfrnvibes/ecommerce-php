@@ -113,25 +113,25 @@ require_once __DIR__ . '/../templates/header_admin.php';
                         <div class="mb-3">
                             <label for="status" class="form-label">Status Pesanan</label>
                             <select name="status" id="status" class="form-select">
-                                <option value="awaiting_payment" <?php echo $order['status'] == 'awaiting_payment' ? 'selected' : ''; ?>>Awaiting Payment</option>
-                                <option value="processing" <?php echo $order['status'] == 'processing' ? 'selected' : ''; ?>>Processing</option>
+                                <option value="awaiting_payment" <?php echo $order['status'] == 'awaiting_payment' ? 'selected' : ''; ?>>Menunggu Pembayaran</option>
+                                <option value="processing" <?php echo $order['status'] == 'processing' ? 'selected' : ''; ?>>Diproses</option>
                                 <option value="shipped" <?php echo $order['status'] == 'shipped' ? 'selected' : ''; ?>>
-                                    Shipped</option>
-                                <option value="completed" <?php echo $order['status'] == 'completed' ? 'selected' : ''; ?>>Completed</option>
-                                <option value="cancelled" <?php echo $order['status'] == 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                                    Dikirim</option>
+                                <option value="completed" <?php echo $order['status'] == 'completed' ? 'selected' : ''; ?>>Selesai</option>
+                                <option value="cancelled" <?php echo $order['status'] == 'cancelled' ? 'selected' : ''; ?>>Dibatalkan</option>
                                 <option value="rejected" <?php echo $order['status'] == 'rejected' ? 'selected' : ''; ?>>
-                                    Rejected</option>
+                                    Ditolak</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="payment_status" class="form-label">Status Pembayaran</label>
                             <select name="payment_status" id="payment_status" class="form-select">
-                                <option value="unpaid" <?php echo $order['payment_status'] == 'unpaid' ? 'selected' : ''; ?>>Unpaid</option>
-                                <option value="pending_verification" <?php echo $order['payment_status'] == 'pending_verification' ? 'selected' : ''; ?>>Pending
-                                    Verification</option>
+                                <option value="unpaid" <?php echo $order['payment_status'] == 'unpaid' ? 'selected' : ''; ?>>Belum Dibayar</option>
+                                <option value="pending_verification" <?php echo $order['payment_status'] == 'pending_verification' ? 'selected' : ''; ?>>Menunggu
+                                    Verifikasi</option>
                                 <option value="paid" <?php echo $order['payment_status'] == 'paid' ? 'selected' : ''; ?>>
-                                    Paid</option>
-                                <option value="failed" <?php echo $order['payment_status'] == 'failed' ? 'selected' : ''; ?>>Failed</option>
+                                    Lunas</option>
+                                <option value="failed" <?php echo $order['payment_status'] == 'failed' ? 'selected' : ''; ?>>Gagal</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Update Status</button>

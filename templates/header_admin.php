@@ -75,7 +75,7 @@ if (!defined('BASE_URL')) {
                     <i class="fas fa-cash-register me-2"></i> Kasir (POS)
                 </a>
                 <a class="nav-link text-white d-flex align-items-center" href="<?php echo BASE_URL; ?>admin/orders.php">
-                    <i class="fas fa-shopping-cart me-2"></i> Pesanan Online
+                    <i class="fas fa-shopping-cart me-2"></i> Pesanan
                 </a>
                 <a class="nav-link text-white d-flex align-items-center"
                     href="<?php echo BASE_URL; ?>admin/products.php">

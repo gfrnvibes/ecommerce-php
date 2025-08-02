@@ -42,6 +42,7 @@ if ($report_type === 'online') {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($report_title); ?></title>
@@ -49,37 +50,49 @@ if ($report_type === 'online') {
         body {
             font-family: Arial, sans-serif;
         }
+
         .container {
             width: 90%;
             margin: auto;
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             text-align: center;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #000;
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
-        tfoot th, tfoot td {
+
+        tfoot th,
+        tfoot td {
             font-weight: bold;
         }
+
         @media print {
             body {
                 margin: 0;
             }
+
             .no-print {
                 display: none;
             }
         }
+
         .print-button {
             display: block;
             width: 100px;
@@ -93,6 +106,7 @@ if ($report_type === 'online') {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1><?php echo htmlspecialchars($report_title); ?></h1>
@@ -106,7 +120,7 @@ if ($report_type === 'online') {
                     <th>Tanggal</th>
                     <th>Total</th>
                     <th>Status</th>
- <th>Jenis</th>
+                    <th>Jenis</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,7 +135,17 @@ if ($report_type === 'online') {
                             <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
                             <td><?php echo date('d M Y, H:i', strtotime($order['created_at'])); ?></td>
                             <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>
-                            <td><?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $order['status']))); ?></td>
+                            <td><?php
+                            $status_map = [
+                                'awaiting_payment' => 'Menunggu Pembayaran',
+                                'processing' => 'Diproses',
+                                'shipped' => 'Dikirim',
+                                'completed' => 'Selesai',
+                                'cancelled' => 'Dibatalkan',
+                                'rejected' => 'Ditolak'
+                            ];
+                            echo htmlspecialchars($status_map[$order['status']] ?? ucwords(str_replace('_', ' ', $order['status'])));
+                            ?></td>
                             <td><?php echo htmlspecialchars(strtoupper($order['order_type'])); ?></td>
                         </tr>
                     <?php endforeach; ?>
@@ -138,4 +162,5 @@ if ($report_type === 'online') {
         <a href="javascript:window.print()" class="no-print print-button">Cetak</a>
     </div>
 </body>
+
 </html>

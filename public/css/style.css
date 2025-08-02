@@ -7,3 +7,15 @@
 .min-h-screen {
   min-height: 75vh; /* Set minimum height to full viewport height */
 }
+
+.btn.btn-primary {
+  background-color: #c72bcc; /* Primary button color */
+  color: white; /* Text color for primary button */
+}
+.bg-primary-pink {
+  background-color: #c72bcc; /* Navbar background color */
+}
+
+a {
+  text-decoration: none; /* Remove underline from links */
+}

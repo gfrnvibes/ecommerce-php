@@ -25,7 +25,7 @@ if (!defined('BASE_URL')) {
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-pink">
     <div class="container">
         <a class="navbar-brand" href="<?php echo BASE_URL; ?>index.php">Toko Bapak Maksum</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ if (!defined('BASE_URL')) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?php if ($_SESSION['user_role'] == 'admin'): ?>
-                                <a class="dropdown-item text-light" href="<?php echo BASE_URL; ?>admin/dashboard.php">Dashboard Admin</a>
+                                <a class="dropdown-item" href="<?php echo BASE_URL; ?>admin/dashboard.php">Dashboard Admin</a>
                             <?php endif; ?>
                             <a class="dropdown-item" href="<?php echo BASE_URL; ?>my_orders.php">Pesanan Saya</a>
                             <div class="dropdown-divider"></div>

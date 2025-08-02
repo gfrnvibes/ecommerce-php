@@ -40,6 +40,22 @@ if (count($order_ids) > 0) {
         ];
     }
 }
+
+$statusMap = [
+    'awaiting_payment' => ['label' => 'Menunggu Pembayaran', 'badge' => 'bg-warning'],
+    'processing' => ['label' => 'Sedang Diproses', 'badge' => 'bg-primary'],
+    'shipped' => ['label' => 'Dikirim', 'badge' => 'bg-info'],
+    'completed' => ['label' => 'Selesai', 'badge' => 'bg-success'],
+    'cancelled' => ['label' => 'Dibatalkan', 'badge' => 'bg-secondary'],
+    'rejected' => ['label' => 'Ditolak', 'badge' => 'bg-danger'],
+];
+
+$paymentStatusMap = [
+    'unpaid' => ['label' => 'Belum Dibayar', 'badge' => 'bg-danger'],
+    'pending_verification' => ['label' => 'Menunggu Verifikasi', 'badge' => 'bg-warning'],
+    'paid' => ['label' => 'Sudah Dibayar', 'badge' => 'bg-success'],
+];
+
 ?>
 
 <div class="container mt-5 min-h-screen">
@@ -100,10 +116,23 @@ if (count($order_ids) > 0) {
                         </td>
 
                         <td>Rp <?php echo number_format($order['total_amount'], 2, ',', '.'); ?></td>
-                        <td><span class="badge bg-info"><?php echo ucfirst(str_replace('_', ' ', $order['status'])); ?></span>
+                            <?php
+                            $status = $order['status'];
+                            $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
+                            $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
+
+                            $payment = $order['payment_status'];
+                            $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
+                            $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
+                            ?>
+                        <td>
+                            <span class="badge <?php echo $badgeClass; ?>">
+                                <?php echo $label; ?>
+                            </span>
                         </td>
-                        <td><span
-                                class="badge bg-warning"><?php echo ucfirst(str_replace('_', ' ', $order['payment_status'])); ?></span>
+                        <td>
+
+                            <span class="badge <?= $paymentBadge ?>"><?= $paymentLabel ?></span>
                         </td>
                         <td>
                             <a href="order_detail.php?id=<?php echo $order['id']; ?>" class="btn btn-primary btn-sm">Detail</a>

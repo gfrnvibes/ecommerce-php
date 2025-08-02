@@ -33,6 +33,21 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $orders = $stmt->fetchAll();
 
+$statusMap = [
+    'awaiting_payment' => ['label' => 'Menunggu Pembayaran', 'badge' => 'bg-warning'],
+    'processing' => ['label' => 'Sedang Diproses', 'badge' => 'bg-primary'],
+    'shipped' => ['label' => 'Dikirim', 'badge' => 'bg-info'],
+    'completed' => ['label' => 'Selesai', 'badge' => 'bg-success'],
+    'cancelled' => ['label' => 'Dibatalkan', 'badge' => 'bg-secondary'],
+    'rejected' => ['label' => 'Ditolak', 'badge' => 'bg-danger'],
+];
+
+$paymentStatusMap = [
+    'unpaid' => ['label' => 'Belum Dibayar', 'badge' => 'bg-danger'],
+    'pending_verification' => ['label' => 'Menunggu Verifikasi', 'badge' => 'bg-warning'],
+    'paid' => ['label' => 'Sudah Dibayar', 'badge' => 'bg-success'],
+];
+
 require_once __DIR__ . '/../templates/header_admin.php';
 ?>
 
@@ -121,16 +136,27 @@ require_once __DIR__ . '/../templates/header_admin.php';
                 <tbody>
                     <?php foreach ($orders as $order):
                         ?>
+
+                            <?php
+                            $status = $order['status'];
+                            $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
+                            $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
+
+                            $payment = $order['payment_status'];
+                            $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
+                            $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
+                            ?>
+
                         <tr>
                             <td><?php echo $order['id']; ?></td>
                             <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
                             <td><?php echo date('d M Y, H:i', strtotime($order['created_at'])); ?></td>
                             <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>
                             <td><span
-                                    class="badge bg-<?php echo get_order_status_class($order['status']); ?>"><?php echo ucfirst(str_replace('_', ' ', $order['status'])); ?></span>
+                                    class="badge bg-<?php echo get_order_status_class($order['status']); ?>"><?php echo $label; ?></span>
                             </td>
                             <td><span
-                                    class="badge bg-<?php echo get_payment_status_class($order['payment_status']); ?>"><?php echo ucfirst(str_replace('_', ' ', $order['payment_status'])); ?></span>
+                                    class="badge bg-<?php echo get_payment_status_class($order['payment_status']); ?>"><?= $paymentLabel ?></span>
                             </td>
                             <td>
                                 <a href="order_detail_admin.php?id=<?php echo $order['id']; ?>"

@@ -23,7 +23,7 @@ if (!$product) {
 require_once 'templates/header.php';
 ?>
 
-<div class="container mt-5">
+<div class="container mt-5 min-h-screen">
     <div class="row">
         <div class="col-md-6">
             <img src="<?php echo ($product['image_url'] ? 'uploads/products/' . $product['image_url'] : 'public/images/placeholder.png'); ?>" class="img-fluid img-thumbnail" alt="<?php echo htmlspecialchars($product['name']); ?>">
