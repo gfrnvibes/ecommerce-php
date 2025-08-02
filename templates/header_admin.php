@@ -97,7 +97,7 @@ if (!defined('BASE_URL')) {
             <!-- Footer -->
             <div
                 class="sb-sidenav-footer mt-auto bg-secondary bg-opacity-10 text-white px-3 py-3 border-top border-secondary">
-                <div class="small">Logged in as:</div>
+                <div class="small">Masuk sebagai:</div>
                 <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong>
             </div>
         </div>
