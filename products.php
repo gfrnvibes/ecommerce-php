@@ -19,7 +19,7 @@ require_once 'templates/header.php';
                 echo '        </a>';
                 echo '        <div class="card-body d-flex flex-column">';
                 echo '            <h5 class="card-title"><a href="product_detail.php?id=' . $row['id'] . '">' . htmlspecialchars($row['name']) . '</a></h5>';
-                echo '            <p class="card-text">Rp ' . number_format($row['price'], 2, ',', '.') . '</p>';
+                echo '            <p class="card-text">Rp ' . number_format($row['price'], 0, ',', '.') . '</p>';
                 echo '            <div class="mt-auto">';
                 echo '                <a href="cart_action.php?action=add&id=' . $row['id'] . '" class="btn btn-primary btn-block">+ Tambah ke Keranjang</a>';
                 echo '            </div>';

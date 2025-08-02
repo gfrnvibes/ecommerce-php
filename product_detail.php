@@ -30,7 +30,7 @@ require_once 'templates/header.php';
         </div>
         <div class="col-md-6">
             <h2><?php echo htmlspecialchars($product['name']); ?></h2>
-            <h4 class="text-success">Rp <?php echo number_format($product['price'], 2, ',', '.'); ?></h4>
+            <h4 class="text-success">Rp <?php echo number_format($product['price'], 0, ',', '.'); ?></h4>
             <p><strong>Stok:</strong> <?php echo $product['stock']; ?></p>
             <hr>
             <h5>Deskripsi Produk</h5>
