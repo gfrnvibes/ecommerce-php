@@ -79,15 +79,15 @@ require_once 'templates/header.php';
                 </thead>
                 <tbody>
                     <?php foreach ($order_items as $item): ?>
-                                                    <?php
-                                                        $status = $order['status'];
-                                                        $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
-                                                        $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
+                        <?php
+                        $status = $order['status'];
+                        $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
+                        $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
 
-                                                        $payment = $order['payment_status'];
-                                                        $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
-                                                        $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
-                                                        ?>
+                        $payment = $order['payment_status'];
+                        $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
+                        $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
+                        ?>
                         <tr>
                             <td><?php echo htmlspecialchars($item['name']); ?></td>
                             <td><?php echo $item['quantity']; ?></td>
@@ -158,8 +158,14 @@ require_once 'templates/header.php';
 
     <?php if ($order['status'] == 'awaiting_payment'): ?>
         <hr>
-        <form action="order_action.php?action=cancel" method="post" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
+        <form action="order_action.php?action=cancel" method="post"
+            onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
             <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+            <div class="form-group mb-3">
+                <label for="rejection_reason" class="form-label">Alasan Pembatalan</label>
+                <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="3"
+                    placeholder="Masukkan alasan pembatalan pesanan" required></textarea>
+            </div>
             <button type="submit" class="btn btn-danger">Batalkan Pesanan</button>
         </form>
     <?php endif; ?>
@@ -189,21 +195,21 @@ require_once 'templates/footer.php';
                 const distance = paymentDue - now;
 
                 if (distance < 0) {
-                clearInterval(countdown);
-                // Cek status terbaru dari server, jika belum 'cancelled', maka refresh.
-                // Ini mencegah loop refresh jika status sudah berhasil diubah.
-                if ('<?php echo $order['status']; ?>' === 'awaiting_payment') {
-                    countdownDiv.innerHTML = "<strong>Waktu pembayaran telah habis.</strong> Halaman akan dimuat ulang untuk memperbarui status.";
-                    countdownDiv.classList.remove('alert-warning');
-                    countdownDiv.classList.add('alert-danger');
-                    setTimeout(() => window.location.reload(), 3000);
-                } else {
-                     countdownDiv.innerHTML = "<strong>Waktu pembayaran telah habis.</strong>";
-                     countdownDiv.classList.remove('alert-warning');
-                     countdownDiv.classList.add('alert-danger');
+                    clearInterval(countdown);
+                    // Cek status terbaru dari server, jika belum 'cancelled', maka refresh.
+                    // Ini mencegah loop refresh jika status sudah berhasil diubah.
+                    if ('<?php echo $order['status']; ?>' === 'awaiting_payment') {
+                        countdownDiv.innerHTML = "<strong>Waktu pembayaran telah habis.</strong> Halaman akan dimuat ulang untuk memperbarui status.";
+                        countdownDiv.classList.remove('alert-warning');
+                        countdownDiv.classList.add('alert-danger');
+                        setTimeout(() => window.location.reload(), 3000);
+                    } else {
+                        countdownDiv.innerHTML = "<strong>Waktu pembayaran telah habis.</strong>";
+                        countdownDiv.classList.remove('alert-warning');
+                        countdownDiv.classList.add('alert-danger');
+                    }
+                    return;
                 }
-                return;
-            }
 
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));

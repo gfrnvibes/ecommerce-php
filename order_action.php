@@ -14,6 +14,7 @@ switch ($action) {
     case 'cancel':
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
             $order_id = $_POST['order_id'];
+            $rejection_reason = $_POST['rejection_reason'] ?? null;
 
             $pdo->beginTransaction();
             try {
@@ -23,9 +24,9 @@ switch ($action) {
                 $order = $stmt->fetch();
 
                 if ($order) {
-                    // 2. Ubah status pesanan menjadi 'cancelled'
-                    $update_order = $pdo->prepare("UPDATE orders SET status = 'cancelled' WHERE id = ?");
-                    $update_order->execute([$order_id]);
+                    // 2. Ubah status pesanan menjadi 'cancelled' dan simpan alasan penolakan
+                    $update_order = $pdo->prepare("UPDATE orders SET status = 'cancelled', rejection_reason = ? WHERE id = ?");
+                    $update_order->execute([$rejection_reason, $order_id]);
 
                     // 3. Kembalikan stok produk
                     $items_stmt = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");

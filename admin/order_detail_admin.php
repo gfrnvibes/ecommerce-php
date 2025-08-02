@@ -140,6 +140,14 @@ require_once __DIR__ . '/../templates/header_admin.php';
                                 <option value="failed" <?php echo $order['payment_status'] == 'failed' ? 'selected' : ''; ?>>Gagal</option>
                             </select>
                         </div>
+                        <?php if ($order['status'] == 'rejected' || $order['status'] == 'cancelled'): ?>
+                            <?php if (!empty($order['rejection_reason'])): ?>
+                                <div class="alert alert-danger">
+                                    <strong>Alasan Penolakan:</strong>
+                                    <?php echo htmlspecialchars($order['rejection_reason']); ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                         <button type="submit" class="btn btn-primary">Update Status</button>
                     </form>
                 </div>
