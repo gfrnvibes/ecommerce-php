@@ -10,7 +10,8 @@ if (session_status() == PHP_SESSION_NONE) {
  *
  * @param bool $require_admin Jika true, pengguna harus memiliki peran 'admin'.
  */
-function check_auth($require_admin = false) {
+function check_auth($require_admin = false)
+{
     // Cek apakah user sudah login
     if (!isset($_SESSION['user_id'])) {
         $_SESSION['message'] = ['type' => 'danger', 'text' => 'Anda harus login untuk mengakses halaman ini.'];
@@ -19,7 +20,7 @@ function check_auth($require_admin = false) {
     }
 
     // Cek apakah user adalah admin jika diperlukan
-    if ($require_admin && (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin')) {
+    if ($require_admin && (!isset($_SESSION['user_role']) || ($_SESSION['user_role'] !== 'admin' && $_SESSION['user_role'] !== 'pemilik'))) {
         $_SESSION['message'] = ['type' => 'danger', 'text' => 'Anda tidak memiliki hak akses ke halaman ini.'];
         // Redirect ke halaman utama user jika bukan admin
         header('Location: ' . BASE_URL . 'index.php');

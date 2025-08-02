@@ -1,3 +1,7 @@
 .min-h-screen {
     min-height: 75vh;
 }
+
+* {
+    font-family: "Inter", sans-serif;
+}
