@@ -17,6 +17,16 @@ foreach ($cart_items as $item) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $amount_paid = filter_input(INPUT_POST, 'amount_paid', FILTER_VALIDATE_FLOAT);
+
+    if ($amount_paid === false || $amount_paid < $total_amount) {
+        $_SESSION['message'] = ['type' => 'danger', 'text' => 'Jumlah yang dibayarkan tidak valid atau kurang dari total belanja.'];
+        header('Location: pos_checkout.php');
+        exit();
+    }
+
+    $change_amount = $amount_paid - $total_amount;
+
     $pdo->beginTransaction();
     try {
         // Create a dummy customer for POS sales if needed, or use a default one.
@@ -57,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Clear POS cart
         $_SESSION['pos_cart'] = [];
 
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Transaksi berhasil! Pesanan #' . $order_id . ' telah dibuat.'];
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Transaksi berhasil! Pesanan #' . $order_id . ' telah dibuat. Jumlah dibayar: Rp ' . number_format($amount_paid, 0, ',', '.') . '. Kembalian: Rp ' . number_format($change_amount, 0, ',', '.') . '.'
+        ];
         header('Location: pos.php');
         exit();
 
@@ -72,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 require_once __DIR__ . '/../templates/header_admin.php';
 ?>
 
-<div class="container-fluid px-4">
+<div class="container px-4">
     <h1 class="mt-4">Checkout POS</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
@@ -124,12 +137,41 @@ require_once __DIR__ . '/../templates/header_admin.php';
         </div>
         <div class="card-footer text-end">
             <form method="POST">
-                <button type="submit" class="btn btn-success btn-lg">Selesaikan Transaksi (Tunai)</button>
-                <a href="pos.php" class="btn btn-secondary btn-lg">Kembali</a>
+                <div class="col-3 mb-3 ms-auto me-5">
+                    <label for="amount_paid" class="form-label">Jumlah Dibayar (Rp)</label>
+                    <input type="number" class="form-control form-control-lg" id="amount_paid" name="amount_paid" value="1000"
+                        min="0" step="any" required>
+                </div>
+                <div class="mb-3 text-end me-5">
+                    <p class="fw-bold">Kembalian: <span id="change_amount_display">Rp 0</span></p>
+                </div>
+                <div class="mb-4 me-5 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Selesaikan Transaksi</button>
+                    <a href="pos.php" class="btn btn-secondary btn-lg">Kembali</a>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const totalAmount = <?php echo $total_amount; ?>;
+        const amountPaidInput = document.getElementById('amount_paid');
+        const changeAmountDisplay = document.getElementById('change_amount_display');
+
+        amountPaidInput.addEventListener('input', function () {
+            let amountPaid = parseFloat(this.value);
+            if (isNaN(amountPaid)) {
+                amountPaid = 0;
+            }
+            const change = amountPaid - totalAmount;
+            changeAmountDisplay.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(change);
+        });
+    });
+</script>
 
 <?php
 require_once __DIR__ . '/../templates/footer_admin.php';

@@ -43,8 +43,9 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">Total Penjualan</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <span class="small text-white stretched-link">Rp <?php echo number_format($total_sales ?? 0, 0, ',', '.'); ?>
-</span>
+                    <span class="small text-white stretched-link">Rp
+                        <?php echo number_format($total_sales ?? 0, 0, ',', '.'); ?>
+                    </span>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -60,6 +61,40 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
         </div>
     </div>
     <!-- Chart dan tabel lain bisa ditambahkan di sini -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Transaksi Terbaru
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>ID Pesanan</th>
+                        <th>Jumlah Total</th>
+                        <th>Tipe Pesanan</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $latest_orders_stmt = $pdo->query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 5");
+                    $latest_orders = $latest_orders_stmt->fetchAll();
+                    foreach ($latest_orders as $order):
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($order['id']); ?></td>
+                            <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>
+                            <td><?php echo htmlspecialchars($order['order_type']); ?></td>
+                            <td><?php echo htmlspecialchars($order['status']); ?></td>
+                            <td><?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($order['created_at']))); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <?php
