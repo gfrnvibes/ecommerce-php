@@ -51,6 +51,8 @@ if ($product_id !== 'all') {
     $report_title .= ' - ' . $product_name;
 }
 
+require_once __DIR__ . '/../templates/header_admin.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -91,8 +93,23 @@ if ($product_id !== 'all') {
         }
 
         @media print {
-            .no-print {
-                display: none;
+
+            .no-print,
+            .navbar,
+            .footer,
+            .btn {
+                display: none !important;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                width: 100%;
+                padding: 0;
+                margin: 0;
             }
         }
 
@@ -112,9 +129,35 @@ if ($product_id !== 'all') {
 
 <body>
     <div class="container">
+<form method="GET" class="no-print d-flex flex-wrap align-items-end gap-3 mb-3">
+    <div>
+        <label for="start_date" class="form-label">Dari Tanggal:</label>
+        <input type="date" id="start_date" name="start_date" class="form-control"
+            value="<?php echo htmlspecialchars($start_date); ?>">
+    </div>
+    <div>
+        <label for="end_date" class="form-label">Sampai Tanggal:</label>
+        <input type="date" id="end_date" name="end_date" class="form-control"
+            value="<?php echo htmlspecialchars($end_date); ?>">
+    </div>
+    <div>
+        <label for="type" class="form-label">Tipe:</label>
+        <select name="type" id="type" class="form-select">
+            <option value="all" <?php echo ($type === 'all') ? 'selected' : ''; ?>>Semua</option>
+            <option value="in" <?php echo ($type === 'in') ? 'selected' : ''; ?>>Barang Masuk</option>
+            <option value="out" <?php echo ($type === 'out') ? 'selected' : ''; ?>>Barang Keluar</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Terapkan Filter</button>
+    </div>
+</form>
+
+
         <h1><?php echo htmlspecialchars($report_title); ?></h1>
         <h2>Periode: <?php echo htmlspecialchars($start_date ?: 'Semua'); ?> s/d
-            <?php echo htmlspecialchars($end_date ?: 'Semua'); ?></h2>
+            <?php echo htmlspecialchars($end_date ?: 'Semua'); ?>
+        </h2>
 
         <table>
             <thead>
