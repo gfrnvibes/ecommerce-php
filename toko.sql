@@ -72,6 +72,8 @@ CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL,
+  `amount_paid` decimal(10,2) DEFAULT NULL,
+  `change_amount` decimal(10,2) DEFAULT NULL,
   `order_type` enum('online','pos') NOT NULL,
   `status` enum('awaiting_payment','processing','shipped','completed','cancelled','rejected') NOT NULL,
   `payment_method` varchar(50) DEFAULT NULL,

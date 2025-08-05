@@ -137,15 +137,15 @@ require_once __DIR__ . '/../templates/header_admin.php';
                     <?php foreach ($orders as $order):
                         ?>
 
-                            <?php
-                            $status = $order['status'];
-                            $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
-                            $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
+                        <?php
+                        $status = $order['status'];
+                        $label = $statusMap[$status]['label'] ?? 'Status Tidak Diketahui';
+                        $badgeClass = $statusMap[$status]['badge'] ?? 'bg-dark';
 
-                            $payment = $order['payment_status'];
-                            $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
-                            $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
-                            ?>
+                        $payment = $order['payment_status'];
+                        $paymentLabel = $paymentStatusMap[$payment]['label'] ?? 'Tidak Diketahui';
+                        $paymentBadge = $paymentStatusMap[$payment]['badge'] ?? 'bg-secondary';
+                        ?>
 
                         <tr>
                             <td><?php echo $order['id']; ?></td>
@@ -161,6 +161,8 @@ require_once __DIR__ . '/../templates/header_admin.php';
                             <td>
                                 <a href="order_detail_admin.php?id=<?php echo $order['id']; ?>"
                                     class="btn btn-info btn-sm">Detail</a>
+                                <a href="receipt.php?order_id=<?php echo $order['id']; ?>" class="btn btn-primary btn-sm"
+                                    target="_blank">Cetak</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Insert into orders table
-        $stmt = $pdo->prepare("INSERT INTO orders (user_id, total_amount, order_type, status, payment_status, payment_method, shipping_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$pos_user_id, $total_amount, 'pos', 'completed', 'paid', 'cash', 'In-store purchase']);
+        $stmt = $pdo->prepare("INSERT INTO orders (user_id, total_amount, amount_paid, change_amount, order_type, status, payment_status, payment_method, shipping_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$pos_user_id, $total_amount, $amount_paid, $change_amount, 'pos', 'completed', 'paid', 'cash', 'In-store purchase']);
         $order_id = $pdo->lastInsertId();
 
         // Insert into order_items, update stock and log inventory movement
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'type' => 'success',
             'text' => 'Transaksi berhasil! Pesanan #' . $order_id . ' telah dibuat. Jumlah dibayar: Rp ' . number_format($amount_paid, 0, ',', '.') . '. Kembalian: Rp ' . number_format($change_amount, 0, ',', '.') . '.'
         ];
-        header('Location: pos.php');
+        header('Location: receipt.php?order_id=' . $order_id);
         exit();
 
     } catch (Exception $e) {
@@ -139,8 +139,8 @@ require_once __DIR__ . '/../templates/header_admin.php';
             <form method="POST">
                 <div class="col-3 mb-3 ms-auto me-5">
                     <label for="amount_paid" class="form-label">Jumlah Dibayar (Rp)</label>
-                    <input type="number" class="form-control form-control-lg" id="amount_paid" name="amount_paid" value="1000"
-                        min="0" step="any" required>
+                    <input type="number" class="form-control form-control-lg" id="amount_paid" name="amount_paid"
+                        value="1000" min="0" step="any" required>
                 </div>
                 <div class="mb-3 text-end me-5">
                     <p class="fw-bold">Kembalian: <span id="change_amount_display">Rp 0</span></p>

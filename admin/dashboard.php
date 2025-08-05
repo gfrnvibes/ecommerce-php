@@ -22,15 +22,18 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
     </ol>
     <div class="row">
         <div class="col-xl-3 col-md-6">
+            <a href="/admin/products.php">
             <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Total Produk</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <span class="small text-white stretched-link"><?php echo $total_products; ?></span>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    <div class="card-body">Total Produk</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <span class="small text-white stretched-link"><?php echo $total_products; ?></span>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-md-6">
+            <a href="/admin/orders.php">
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body">Pesanan Pending</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -38,8 +41,11 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
+            </a>
+
         </div>
         <div class="col-xl-3 col-md-6">
+            <a href="/admin/orders.php">
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">Total Penjualan</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -49,8 +55,10 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
+            </a>
         </div>
         <div class="col-xl-3 col-md-6">
+            <a href="/admin/customers.php">
             <div class="card bg-danger text-white mb-4">
                 <div class="card-body">Total Pelanggan</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -58,6 +66,8 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
+            </a>
+
         </div>
     </div>
     <!-- Chart dan tabel lain bisa ditambahkan di sini -->

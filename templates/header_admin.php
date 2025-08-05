@@ -85,6 +85,10 @@ if (!defined('BASE_URL')) {
                     href="<?php echo BASE_URL; ?>admin/inventory.php">
                     <i class="fas fa-boxes me-2"></i> Inventaris
                 </a>
+                <a class="nav-link text-white d-flex align-items-center"
+                    href="<?php echo BASE_URL; ?>admin/customers.php">
+                    <i class="fas fa-users me-2"></i> Pelanggan
+                </a>
 
                 <!-- Section: Laporan -->
                 <div class="sb-sidenav-menu-heading text-uppercase small text-secondary mt-4">Laporan</div>
