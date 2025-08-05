@@ -53,16 +53,24 @@ $total_price = 0;
                         <?php $total_price += $subtotal; ?>
                         <tr>
                             <td>
-                                <img src="<?php echo ($item['image_url'] ? 'uploads/products/' . $item['image_url'] : 'public/images/placeholder.png'); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" style="width: 50px; height: 50px; object-fit: cover;">
+                                <img src="<?php echo ($item['image_url'] ? 'uploads/products/' . $item['image_url'] : 'public/images/placeholder.png'); ?>"
+                                    alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                    style="width: 50px; height: 50px; object-fit: cover;">
                                 <?php echo htmlspecialchars($item['name']); ?>
                             </td>
                             <td>Rp <?php echo number_format($item['price'], 2, ',', '.'); ?></td>
                             <td>
-                                <input type="number" name="quantities[<?php echo $item['id']; ?>]" class="form-control" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>">
+                            <td>
+                                <input type="number" name="quantities[<?php echo $item['id']; ?>]" class="form-control"
+                                    value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>"
+                                    oninvalid="this.setCustomValidity('Jumlah tidak boleh lebih dari <?php echo $item['stock']; ?>')"
+                                    oninput="this.setCustomValidity('')">
+                            </td>
                             </td>
                             <td>Rp <?php echo number_format($subtotal, 2, ',', '.'); ?></td>
                             <td>
-                                <a href="cart_action.php?action=remove&id=<?php echo $item['id']; ?>" class="btn btn-danger btn-sm">Hapus</a>
+                                <a href="cart_action.php?action=remove&id=<?php echo $item['id']; ?>"
+                                    class="btn btn-danger btn-sm">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
