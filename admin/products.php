@@ -35,7 +35,7 @@ require_once __DIR__ . '/../templates/header_admin.php';
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Gambar</th>
                         <th>Nama Produk</th>
                         <th>Harga</th>
@@ -44,18 +44,23 @@ require_once __DIR__ . '/../templates/header_admin.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><?php echo $product['id']; ?></td>
-                        <td><img src="<?php echo BASE_URL . ($product['image_url'] ? 'uploads/products/' . $product['image_url'] : 'public/images/placeholder.png'); ?>" alt="" width="50"></td>
-                        <td><?php echo htmlspecialchars($product['name']); ?></td>
-                        <td>Rp <?php echo number_format($product['price'], 0, ',', '.'); ?></td>
-                        <td><?php echo $product['stock']; ?></td>
-                        <td>
-                            <a href="product_form.php?id=<?php echo $product['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="product_action.php?action=delete&id=<?php echo $product['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus produk ini?');">Hapus</a>
-                        </td>
-                    </tr>
+                    <?php $i = 1;
+                    foreach ($products as $product): ?>
+                        <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><img src="<?php echo BASE_URL . ($product['image_url'] ? 'uploads/products/' . $product['image_url'] : 'public/images/placeholder.png'); ?>"
+                                    alt="" width="50"></td>
+                            <td><?php echo htmlspecialchars($product['name']); ?></td>
+                            <td>Rp <?php echo number_format($product['price'], 0, ',', '.'); ?></td>
+                            <td><?php echo $product['stock']; ?></td>
+                            <td>
+                                <a href="product_form.php?id=<?php echo $product['id']; ?>"
+                                    class="btn btn-warning btn-sm">Edit</a>
+                                <a href="product_action.php?action=delete&id=<?php echo $product['id']; ?>"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Anda yakin ingin menghapus produk ini?');">Hapus</a>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

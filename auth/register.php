@@ -11,12 +11,14 @@ $errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
+    $shipping_address = trim($_POST['shipping_address']);
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
 
     // Validasi
     if (empty($name)) $errors[] = 'Nama harus diisi.';
     if (empty($email)) $errors[] = 'Email harus diisi.';
+    if (empty($shipping_address)) $errors[] = 'Alamat harus diisi.';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Format email tidak valid.';
     if (empty($password)) $errors[] = 'Password harus diisi.';
     if (strlen($password) < 6) $errors[] = 'Password minimal 6 karakter.';
@@ -32,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Jika tidak ada error, masukkan ke database
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $insert_stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'customer')");
-        if ($insert_stmt->execute([$name, $email, $hashed_password])) {
+        $insert_stmt = $pdo->prepare("INSERT INTO users (name, email, password, role, shipping_address) VALUES (?, ?, ?, 'customer', ?)");
+        if ($insert_stmt->execute([$name, $email, $hashed_password, $shipping_address])) {
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Registrasi berhasil! Silakan login.'];
             header("Location: login.php");
             exit();
@@ -69,6 +71,10 @@ require_once __DIR__ . '/../templates/header.php';
                         <div class="form-group mb-3">
                             <label for="email" class="form-label">Alamat Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="shipping_address" class="form-label">Alamat Rumah</label>
+                            <textarea rows="3" class="form-control" id="shipping_address" name="shipping_address" required></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <label for="password" class="form-label">Password</label>
