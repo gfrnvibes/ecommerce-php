@@ -124,7 +124,7 @@ require_once __DIR__ . '/../templates/header_admin.php';
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>ID Pesanan</th>
+                        <th>No</th>
                         <th>Pelanggan</th>
                         <th>Tanggal</th>
                         <th>Total</th>
@@ -134,7 +134,9 @@ require_once __DIR__ . '/../templates/header_admin.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($orders as $order):
+                    <?php 
+                    $i = 1;
+                    foreach ($orders as $order):
                         ?>
 
                         <?php
@@ -148,7 +150,8 @@ require_once __DIR__ . '/../templates/header_admin.php';
                         ?>
 
                         <tr>
-                            <td><?php echo $order['id']; ?></td>
+                            <td><?php echo $i++; ?></td>
+
                             <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
                             <td><?php echo date('d M Y, H:i', strtotime($order['created_at'])); ?></td>
                             <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>

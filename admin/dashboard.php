@@ -80,7 +80,7 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
             <table class="table table-bordered" id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>ID Pesanan</th>
+                        <th>No</th>
                         <th>Jumlah Total</th>
                         <th>Tipe Pesanan</th>
                         <th>Status</th>
@@ -91,10 +91,11 @@ $total_sales = $pdo->query('SELECT SUM(total_amount) FROM orders WHERE status = 
                     <?php
                     $latest_orders_stmt = $pdo->query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 5");
                     $latest_orders = $latest_orders_stmt->fetchAll();
+                    $i = 1;
                     foreach ($latest_orders as $order):
                         ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($order['id']); ?></td>
+                            <td><?php echo $i++; ?></td>
                             <td>Rp <?php echo number_format($order['total_amount'], 0, ',', '.'); ?></td>
                             <td><?php echo htmlspecialchars($order['order_type']); ?></td>
                             <td><?php
